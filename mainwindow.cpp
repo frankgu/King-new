@@ -1752,29 +1752,26 @@ void MainWindow::startCombatSlot(HexWidget *tempHex)
 void MainWindow::getThingsFromRetreatSlot(QList<Thing*> tempThings, int playerID)
 {
     QList<int> tempHexs = getNearHex(selectedHex->getID());
-    for(int i = 0; i < tempHexs.size(); i++)
-    {
-        if(m_hexWidget.at(tempHexs.at(i))->childAt(57,50))
-        {
-            if(m_hexWidget.at(tempHexs.at(i))->childAt(57,50)->objectName().toInt() == playerID)
-            {
-                for(int j = 0; j < tempThings.size(); j++)
-                {
-                    if(m_hexWidget.at(tempHexs.at(i))->getPlayerThingsLabel(playerID).size() < 10)
-                    {
-                        tempThings.at(j)->setUsed(true);
-                        tempThings.at(j)->setInRack(false);
-                        //set the thing on the hex
-                        m_hexWidget.at(tempHexs.at(j))->setPlayerThing(tempThings.at(j),playerID);
-                        //set the thing to the player
-                        GameData->getPlayerFromID(playerID)->setPlayerThing(tempThings.at(j));
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-    }
+       for(int j = 0; j < tempThings.size(); j++)
+       {
+           for(int i = 0; i < tempHexs.size(); i++)
+           {
+               if(m_hexWidget.at(tempHexs.at(i))->childAt(57,50) &&
+                       m_hexWidget.at(tempHexs.at(i))->childAt(57,50)->objectName().toInt() == playerID &&
+                       m_hexWidget.at(tempHexs.at(i))->getPlayerThingsLabel(playerID).size() < 10)
+               {
+                           tempThings.at(j)->setUsed(true);
+                           tempThings.at(j)->setInRack(false);
+                           //set the thing on the hex
+                           m_hexWidget.at(tempHexs.at(j))->setPlayerThing(tempThings.at(j),playerID);
+                           //set the thing to the player
+                           GameData->getPlayerFromID(playerID)->setPlayerThing(tempThings.at(j));
+                           break;
+               } else {
+                   break;
+               }
+           }
+       }
 }
 
 void MainWindow::getThingsFromCombatWinnerSlot(QList<Thing*> tempThings, int playerID)
