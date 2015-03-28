@@ -2,6 +2,7 @@
 #define THINGMIMEDATA_H
 
 #include <QMimeData>
+#include <QStringList>
 #include "thing.h"
 
 class ThingMimeData:public QMimeData
